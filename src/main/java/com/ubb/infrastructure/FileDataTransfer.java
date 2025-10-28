@@ -1,4 +1,4 @@
 package com.ubb.infrastructure;
 
-public interface FileDataTransfer extends DataTransferStrategy {
+public interface FileDataTransfer<ID> extends DataTransferStrategy<ID> {
 }

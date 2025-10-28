@@ -3,10 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Flock extends Entity<Long>{
-    private String flockName;
+    private final String flockName;
     private final List<Duck> members = new ArrayList<Duck>();
-    public Flock(Long id) {
+    public Flock(Long id, String flockName) {
         super(id);
+        this.flockName = flockName;
     }
     public Double getAveragePerformance() {
         Double sum = 0.0, cnt = 0.0;
@@ -22,7 +23,7 @@ public class Flock extends Entity<Long>{
     public void addDuck(Duck duck) {
         members.add(duck);
     }
-    public void removeDuck(Duck duck) {
-        members.remove(duck);
+    public void removeDuck(Long id) {
+        members.removeIf(duck -> duck.getId().equals(id));
     }
 }

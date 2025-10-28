@@ -1,6 +1,7 @@
 package com.ubb.infrastructure;
+import com.ubb.domain.Entity;
 
-public interface DataTransferStrategy {
-    public String serialization(Object o);
-    public Object deserialization(String s);
+public interface DataTransferStrategy<ID> {
+    public String serialization(Entity<ID> o);
+    public Entity<ID> deserialization(String s);
 }
