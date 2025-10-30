@@ -8,6 +8,22 @@ public class ConsoleMenuPrinter {
         System.out.println("=======================================================");
         System.out.println("Enter your choice -> ");
     }
+
+    static protected void printAdminMenu(){
+        printHeader();
+        System.out.println("[1] list all users");
+        System.out.println("[2] list all friends");
+        System.out.println("[3] create new duck");
+        System.out.println("[4] create new person");
+        System.out.println("[5] create friendship");
+        System.out.println("[6] delete user");
+        System.out.println("[7] delete friendship");
+        System.out.println("[8] number of friend groups");
+        System.out.println("[9] largest community in diameter");
+        System.out.println("[0] logout");
+        printFooter();
+    }
+
     static protected void printLoginMenu(){
         printHeader();
         System.out.println("[1] Login");
@@ -15,6 +31,7 @@ public class ConsoleMenuPrinter {
         System.out.println("[3] Exit");
         printFooter();
     }
+
     static protected void printChoseUserType(){
         printHeader();
         System.out.println("[1] Person");

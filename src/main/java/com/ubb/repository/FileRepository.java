@@ -1,7 +1,7 @@
 package com.ubb.repository;
 
 import com.ubb.domain.Entity;
-import com.ubb.infrastructure.FileDataTransfer;
+import com.ubb.infrastructure.DataTransferStrategy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,9 +11,9 @@ import java.util.*;
 
 public class FileRepository<ID,E extends Entity<ID>> implements Repository<ID,E> {
     private final File file;
-    FileDataTransfer<ID> strategy;
+    DataTransferStrategy<ID,E> strategy;
     Map<ID,E> data = new HashMap<>();
-    public FileRepository(File file, FileDataTransfer<ID> strategy) {
+    public FileRepository(File file, DataTransferStrategy<ID,E> strategy) {
         this.file = file;
         this.strategy = strategy;
         try{loadFromFile();}
@@ -28,11 +28,11 @@ public class FileRepository<ID,E extends Entity<ID>> implements Repository<ID,E>
         try(FileWriter fw = new FileWriter(file)) {
             for(Map.Entry<ID,E> entry : data.entrySet()) {
                 String fileLine = strategy.serialization(entry.getValue());
-                fw.write(fileLine);
+                fw.write(fileLine+System.lineSeparator());
             }
         }
         catch(IOException e) {
-            System.out.printf("Error writing to file: %s\n", file.getAbsolutePath());
+            throw new RepoException("<<Failed to write to file>>");
         }
     }
 
@@ -43,7 +43,7 @@ public class FileRepository<ID,E extends Entity<ID>> implements Repository<ID,E>
         Scanner sc = new  Scanner(file);
         while(sc.hasNextLine()) {
             String line = sc.nextLine();
-            E entity = (E) strategy.deserialization(line);
+            E entity = strategy.deserialization(line);
             data.put(entity.getId(), entity);
         }
     }
@@ -58,7 +58,9 @@ public class FileRepository<ID,E extends Entity<ID>> implements Repository<ID,E>
 
     @Override
     public E delete(ID id) throws RepoException {
-        E entity = data.get(id);
+        E entity = data.remove(id);
+        if (entity == null)
+            throw new RepoException("<<Entity with id " + id.toString() + " does not exist>>");
         saveToFile();
         return entity;
     }
@@ -80,9 +82,6 @@ public class FileRepository<ID,E extends Entity<ID>> implements Repository<ID,E>
 
     @Override
     public List<E> getAll() {
-        if(!data.isEmpty())
-            return List.copyOf(data.values());
-        return new ArrayList<>();
+        return new ArrayList<>(data.values());
     }
-
 }

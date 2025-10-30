@@ -4,7 +4,7 @@ public class Duck extends User{
     private DuckType duckType;
     private Double speed;
     private Double resistance;
-    private Long flockId;
+    private Long flockId = -1L;
     public Duck(Long id, String username, String password, String email) {
         super(id, username, password, email);
     }

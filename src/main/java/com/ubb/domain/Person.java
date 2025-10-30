@@ -1,10 +1,11 @@
 package com.ubb.domain;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Person extends User {
     private String firstName;
     private String lastName;
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
     private String occupation;
     public Person(Long id, String username, String password, String email) {
         super(id, username, password, email);
@@ -23,10 +24,10 @@ public class Person extends User {
         this.lastName = lastName;
         return this;
     }
-    public LocalDateTime getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
-    public Person setDateOfBirth(LocalDateTime dateOfBirth) {
+    public Person setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
         return this;
     }

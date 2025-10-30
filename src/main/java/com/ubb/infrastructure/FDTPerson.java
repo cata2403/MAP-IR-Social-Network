@@ -3,13 +3,14 @@ package com.ubb.infrastructure;
 import com.ubb.domain.Entity;
 import com.ubb.domain.Person;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class FDTPerson implements FileDataTransfer<Long>{
+public class FDTPerson implements DataTransferStrategy<Long, Person> {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     @Override
-    public String serialization(Entity<Long> o) {
+    public String serialization(Person o) {
         String fileLine = ((Person) o).getId().toString() + "," + ((Person) o).getUsername() + "," + ((Person) o).getPassword() +  "," + ((Person) o).getEmail() + ',';
         fileLine += ((Person) o).getFirstName() + "," + ((Person) o).getLastName() + "," + ((Person) o).getOccupation() + ',';
         fileLine += ((Person) o).getDateOfBirth().format(formatter);
@@ -17,10 +18,10 @@ public class FDTPerson implements FileDataTransfer<Long>{
     }
 
     @Override
-    public Entity<Long> deserialization(String s) {
+    public Person deserialization(String s) {
         String[] split = s.split(",");
         Person pers = new Person(Long.parseLong(split[0]),split[1],split[2],split[3]);
-        pers = pers.setFirstName(split[4]).setLastName(split[5]).setOccupation(split[6]).setDateOfBirth(LocalDateTime.parse(split[7], formatter));
+        pers = pers.setFirstName(split[4]).setLastName(split[5]).setOccupation(split[6]).setDateOfBirth(LocalDate.parse(split[7], formatter));
         return pers;
     }
 }

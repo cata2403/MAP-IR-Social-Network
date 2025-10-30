@@ -1,6 +1,8 @@
 import com.ubb.domain.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DomainTest{
@@ -17,7 +19,7 @@ public class DomainTest{
         assertEquals("B", person.getLastName());
         person.setOccupation("C");
         assertEquals("C", person.getOccupation());
-        LocalDateTime date = LocalDateTime.now();
+        LocalDate date = LocalDate.now();
         person.setDateOfBirth(date);
         assertEquals(date, person.getDateOfBirth());
         person.setFirstName("Z").setLastName("y");

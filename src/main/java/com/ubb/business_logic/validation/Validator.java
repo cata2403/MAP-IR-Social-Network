@@ -8,10 +8,10 @@ public class Validator {
         this.strategy = strategy;
     }
     public Validator(){}
-    void setStrategy(ValidationStrategy strategy){
+    public void setStrategy(ValidationStrategy strategy){
         this.strategy = strategy;
     }
-    void validate(Entity<Long> entity) throws ValidationException {
+    public void validate(Entity<Long> entity) throws ValidationException {
         if(!strategy.test(entity))
             throw new ValidationException("<<Validation Failed>>");
     }
