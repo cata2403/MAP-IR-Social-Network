@@ -1,30 +1,42 @@
 package com.ubb.utils;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.ArrayList;
+import java.util.Collections;
 
-public class GraphAlgorithms {
-    static public List<Long> bfs(Map<Long, List<Long>> graf, int[] parcurs, Long start){
+
+public final class GraphAlgorithms {
+
+    static public List<Long> bfs(Map<Long, List<Long>> graph, int[] distances, Long start){
+
         Queue<Long> queue = new LinkedList<>();
         queue.add(start);
-        parcurs[Math.toIntExact(start)] = 1;
-        List<Long> nodes = new ArrayList<>();
+        distances[Math.toIntExact(start)] = 1;
+        List<Long> visitedNodes = new ArrayList<>();
+
         while (!queue.isEmpty()){
             Long node = queue.poll();
-            nodes.add(node);
-            List<Long> list = graf.getOrDefault(node, Collections.emptyList());
+            visitedNodes.add(node);
+            List<Long> list = graph.getOrDefault(node, Collections.emptyList());
+
             for(Long neighbour : list){
-                if(parcurs[Math.toIntExact(neighbour)] == 0){
-                    parcurs[Math.toIntExact(neighbour)] = parcurs[Math.toIntExact(node)] + 1;
+                if( distances[Math.toIntExact(neighbour)] == 0 ){
+                    distances[Math.toIntExact(neighbour)] = distances[Math.toIntExact(node)] + 1;
                     queue.add(neighbour);
                 }
             }
         }
-        return nodes;
+        return visitedNodes;
     }
-    static public long findBiggestNode(Map<Long, List<Long>> graf){
+
+    static public long findBiggestNode(Map<Long, List<Long>> graph){
+
         long maxId = 0;
-        for(Long key : graf.keySet()){
-            if(key>maxId){
+        for( Long key : graph.keySet() ){
+            if( key > maxId ){
                 maxId = key;
             }
         }

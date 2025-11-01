@@ -1,13 +1,12 @@
 package com.ubb.repository;
 
 import com.ubb.domain.Entity;
-
 import java.util.List;
 
-public class InMemoryRepository<ID,E extends Entity<ID>> implements Repository<ID,E>{
+public class InMemoryRepository<ID, E extends Entity<ID>> implements Repository<ID, E>{
+
     @Override
     public void add(E entity) {
-
     }
 
     @Override
@@ -17,7 +16,6 @@ public class InMemoryRepository<ID,E extends Entity<ID>> implements Repository<I
 
     @Override
     public void update(E entity) {
-
     }
 
     @Override

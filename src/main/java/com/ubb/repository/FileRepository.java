@@ -4,79 +4,108 @@ import com.ubb.domain.Entity;
 import com.ubb.infrastructure.DataTransferStrategy;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
-public class FileRepository<ID,E extends Entity<ID>> implements Repository<ID,E> {
-    private final File file;
-    DataTransferStrategy<ID,E> strategy;
-    Map<ID,E> data = new HashMap<>();
-    public FileRepository(File file, DataTransferStrategy<ID,E> strategy) {
-        this.file = file;
+public class FileRepository<ID, E extends Entity<ID>> implements Repository<ID, E> {
+
+    private final File dataFile;
+    DataTransferStrategy<ID, E> strategy;
+    Map<ID, E> data = new HashMap<>();
+
+    public FileRepository(File file, DataTransferStrategy<ID, E> strategy) throws RepoException{
+
+        this.dataFile = file;
         this.strategy = strategy;
-        try{loadFromFile();}
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
+        loadFromFile();
     }
 
     private void saveToFile() throws RepoException {
-        if(!file.exists())
+
+        if( !dataFile.exists() )
             throw new RepoException("<<File does not exist>>");
-        try(FileWriter fw = new FileWriter(file)) {
+
+        try(FileWriter fw = new FileWriter(dataFile)) {
+
             for(Map.Entry<ID,E> entry : data.entrySet()) {
-                String fileLine = strategy.serialization(entry.getValue());
-                fw.write(fileLine+System.lineSeparator());
+                String fileLine = strategy.serialize(entry.getValue());
+                fw.write(fileLine + System.lineSeparator());
             }
         }
-        catch(IOException e) {
+        catch(Exception error) {
             throw new RepoException("<<Failed to write to file>>");
         }
     }
 
-    private void loadFromFile() throws RepoException, FileNotFoundException {
-        if(!file.exists())
+    private void loadFromFile() throws RepoException{
+
+        if( !dataFile.exists() )
             throw new RepoException("<<File does not exist>>");
+
         data.clear();
-        Scanner sc = new  Scanner(file);
-        while(sc.hasNextLine()) {
-            String line = sc.nextLine();
-            E entity = strategy.deserialization(line);
-            data.put(entity.getId(), entity);
+        try {
+            Scanner sc = new Scanner(dataFile);
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                E entity = strategy.deserialize(line);
+                data.put(entity.getId(), entity);
+            }
+        }
+        catch(Exception error) {
+            throw new RepoException("<<Failed to read from file>>");
         }
     }
 
     @Override
     public void add(E entity) throws RepoException {
-        if(data.containsKey(entity.getId()))
-            throw new RepoException("<<Entity with id " + entity.getId().toString() + " already exists>>");
+
+        if( data.containsKey(entity.getId()) )
+            throw new RepoException(
+                    "<<Entity with id " + entity.getId().toString() + " already exists>>"
+            );
+
         data.put(entity.getId(), entity);
         saveToFile();
     }
 
     @Override
     public E delete(ID id) throws RepoException {
+
         E entity = data.remove(id);
-        if (entity == null)
-            throw new RepoException("<<Entity with id " + id.toString() + " does not exist>>");
+
+        if(entity == null)
+            throw new RepoException(
+                    "<<Entity with id " + id.toString() + " does not exist>>"
+            );
+
         saveToFile();
         return entity;
     }
 
     @Override
     public void update(E entity) throws RepoException {
-        if(!data.containsKey(entity.getId()))
-            throw new RepoException("<<Entity with id " + entity.getId().toString() + " does not exist>>");
+
+        if( !data.containsKey(entity.getId()) )
+            throw new RepoException(
+                    "<<Entity with id " + entity.getId().toString() + " does not exist>>"
+            );
+
         data.put(entity.getId(), entity);
         saveToFile();
     }
 
     @Override
     public E get(ID id) throws RepoException {
-        if(!data.containsKey(id))
-            throw new RepoException("<<Entity with id " + id.toString() + " does not exist>>");
+
+        if( !data.containsKey(id) )
+            throw new RepoException(
+                    "<<Entity with id " + id.toString() + " does not exist>>"
+            );
+
         return data.get(id);
     }
 

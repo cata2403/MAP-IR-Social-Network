@@ -1,6 +1,6 @@
 import com.ubb.domain.FriendRequest;
 import com.ubb.domain.Friendship;
-import com.ubb.infrastructure.FDTFriendship;
+import com.ubb.infrastructure.FriendshipFileSavingStrategy;
 import com.ubb.repository.FileRepository;
 import com.ubb.repository.Repository;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ public class RepositoryTest {
     @Test
     public void fileRepositoryCorrectness(){
         File file = new File("files/repo_test_friendship.csv");
-        Repository<Long, Friendship> repo = new FileRepository<Long,Friendship>(file, new FDTFriendship());
+        Repository<Long, Friendship> repo = new FileRepository<Long,Friendship>(file, new FriendshipFileSavingStrategy());
 
         Friendship f1 = repo.get(1L);
         assertEquals(1L, f1.getId());

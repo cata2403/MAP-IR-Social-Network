@@ -3,6 +3,7 @@ package com.ubb.domain;
 import java.time.LocalDateTime;
 
 public class Message extends Entity<Long>{
+
     private final Long idSender;
     private final Long idReceiver;
     private final String message;
@@ -15,15 +16,19 @@ public class Message extends Entity<Long>{
         this.message = message;
         this.timestamp = LocalDateTime.now();
     }
+
     public Long getIdSender() {
         return idSender;
     }
+
     public Long getIdReceiver() {
         return idReceiver;
     }
+
     public String getMessage() {
         return message;
     }
+
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
