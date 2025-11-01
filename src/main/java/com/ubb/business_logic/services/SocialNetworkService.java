@@ -13,38 +13,40 @@ import java.util.Optional;
 public abstract class SocialNetworkService {
     private final Repository<Long, Person> personRepository;
     private final Repository<Long, Duck> duckRepository;
-    private final Repository<Long, Friendship> friendshipRepository;
-    public SocialNetworkService(Repository<Long,Person> repo1, Repository<Long,Duck> repo2, Repository<Long,Friendship> repo3) {
+    public SocialNetworkService(Repository<Long,Person> repo1, Repository<Long,Duck> repo2) {
         this.personRepository = repo1;
         this.duckRepository = repo2;
-        this.friendshipRepository = repo3;
     }
 
-    public LoginDTO login(String username, String password) {
+    public User obtainUserByPassword(String password){
         List<Person> persons = personRepository.getAll();
         List<Duck> ducks = duckRepository.getAll();
-        Optional<Person> pers = persons.stream().filter(p -> {return p.getPassword().equals(password) && p.getUsername().equals(username);}).findFirst();
-        Optional<Duck> duck = ducks.stream().filter(d->{return d.getPassword().equals(password) && d.getUsername().equals(username);}).findFirst();
+        Optional<Person> pers = persons.stream().filter(p -> {return p.getPassword().equals(password);}).findFirst();
+        Optional<Duck> duck = ducks.stream().filter(d->{return d.getPassword().equals(password);}).findFirst();
+        if(pers.isPresent())
+            return pers.get();
+        else if(duck.isPresent())
+            return duck.get();
+        return null;
+    }
+
+
+    public LoginDTO login(String username, String password) {
         UserType type = UserType.NONE;
-        User user = null;
-        boolean confirm = false;
-        if(pers.isPresent()){
-            user = pers.get();
-            type = UserType.PERSON;
-            confirm = true;
-            if(user.getId() == 0L){
-                type = UserType.ADMIN;
-            }
+        User user = obtainUserByPassword(password);
+        boolean confirmation = false;
+
+        if(user != null){
+            if(user instanceof Person)
+                type=UserType.PERSON;
+            else type=UserType.DUCK;
+            if(user.getId() == 0L)
+                type=UserType.ADMIN;
+            if(user.getUsername().equals(username))
+                confirmation=true;
         }
-        else if(duck.isPresent()){
-            user = duck.get();
-            type = UserType.DUCK;
-            confirm = true;
-            if(user.getId() == 0L){
-                type = UserType.ADMIN;
-            }
-        }
-        return new LoginDTO(confirm,type,user);
+
+        return new LoginDTO(confirmation,type,user);
     }
 
     public List<UserDTO>  listUsers() {

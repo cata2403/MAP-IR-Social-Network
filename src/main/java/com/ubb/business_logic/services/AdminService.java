@@ -15,9 +15,9 @@ public class AdminService extends SocialNetworkService{
     private final Repository<Long, Person> personRepository;
     private final Repository<Long, Duck> duckRepository;
     private final Repository<Long, Friendship> friendshipRepository;
-    private Validator validator = new Validator();
+    private final Validator validator = new Validator();
     public AdminService(Repository<Long, Person> repo1, Repository<Long, Duck> repo2, Repository<Long, Friendship> repo3) {
-        super(repo1, repo2, repo3);
+        super(repo1, repo2);
         personRepository = repo1;
         duckRepository = repo2;
         friendshipRepository = repo3;
@@ -51,22 +51,33 @@ public class AdminService extends SocialNetworkService{
         validator.validate(person);
         personRepository.add(person);
     }
+
+    public void deleteFriendsOfUser(Long id){
+        List<Friendship>  friendships = friendshipRepository.getAll();
+        for(Friendship f : friendships){
+            if(f.getIdUser1().equals(id) ||  f.getIdUser2().equals(id)){
+                friendshipRepository.delete(f.getId());
+            }
+        }
+    }
+
     public void deleteUser(Long id){
+        if(id == 0L)
+            throw new ServiceException("<<You can't delete this user>>");
         try{
             personRepository.get(id);
             personRepository.delete(id);
-            List<Friendship>  friendships = friendshipRepository.getAll();
-            for(Friendship f : friendships){
-                if(f.getIdUser1().equals(id) ||  f.getIdUser2().equals(id)){
-                    friendshipRepository.delete(f.getId());
-                }
-            }
+            deleteFriendsOfUser(id);
         }
         catch(RepoException e){
             duckRepository.delete(id);
+            deleteFriendsOfUser(id);
         }
     }
+
     public void createFriendship(Long id1, Long id2, FriendRequest type){
+        if(id1 == 0L ||  id2 == 0L)
+            throw new ServiceException("<<You can't befriend this user>>");
         Friendship fr = new Friendship(IdProvider.getId(),id1,id2,type);
         List<Friendship> friendships = friendshipRepository.getAll();
         for(Friendship f : friendships){
@@ -76,6 +87,7 @@ public class AdminService extends SocialNetworkService{
         }
         friendshipRepository.add(fr);
     }
+
     public void deleteFriendship(Long id1, Long id2){
         List<Friendship>  friendships = friendshipRepository.getAll();
         Long id = -1L;
@@ -108,17 +120,12 @@ public class AdminService extends SocialNetworkService{
 
     public int findNumberOfFriendGroups(){
         Map<Long,List<Long>> groups = makeFriendGroupsGraph();
-        long maxId = 0;
-        for(Long key : groups.keySet()){
-            if(key>maxId){
-                maxId = key;
-            }
-        }
+        long maxId = GraphAlgorithms.findBiggestNode(groups);
         int[] parcurs = new int[Math.toIntExact(maxId)+1];
         int cnt = 0;
         for (Long key : groups.keySet()) {
             if(parcurs[Math.toIntExact(key)] == 0){
-                GraphAlgorithms.BFS(groups,parcurs,key);
+                GraphAlgorithms.bfs(groups,parcurs,key);
                 cnt++;
             }
         }
@@ -140,17 +147,12 @@ public class AdminService extends SocialNetworkService{
 
     public List<Long> findMostSociableFriendGroup(){
         Map<Long,List<Long>> groups = makeFriendGroupsGraph();
-        long maxId = 0;
-        for(Long key : groups.keySet()){
-            if(key>maxId){
-                maxId = key;
-            }
-        }
+        long maxId = GraphAlgorithms.findBiggestNode(groups);
         int maxDist = 0;
         List<Long> best_group = new ArrayList<>();
         for(Long key : groups.keySet()){
             int[] dist = new int[Math.toIntExact(maxId)+1];
-            List<Long> group = GraphAlgorithms.BFS(groups,dist,key);
+            List<Long> group = GraphAlgorithms.bfs(groups,dist,key);
             int mx = 0;
             for (int j : dist) {
                 if (mx < j) {

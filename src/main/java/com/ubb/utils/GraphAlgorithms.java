@@ -3,7 +3,7 @@ package com.ubb.utils;
 import java.util.*;
 
 public class GraphAlgorithms {
-    static public List<Long> BFS(Map<Long, List<Long>> graf, int[] parcurs, Long start){
+    static public List<Long> bfs(Map<Long, List<Long>> graf, int[] parcurs, Long start){
         Queue<Long> queue = new LinkedList<>();
         queue.add(start);
         parcurs[Math.toIntExact(start)] = 1;
@@ -20,5 +20,14 @@ public class GraphAlgorithms {
             }
         }
         return nodes;
+    }
+    static public long findBiggestNode(Map<Long, List<Long>> graf){
+        long maxId = 0;
+        for(Long key : graf.keySet()){
+            if(key>maxId){
+                maxId = key;
+            }
+        }
+        return maxId;
     }
 }

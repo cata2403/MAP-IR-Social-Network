@@ -13,7 +13,7 @@ import com.ubb.repository.Repository;
 
 import java.io.File;
 
-public class AppCoordonator {
+public class AppCoordinator {
     public static void main(String[] args) {
         Repository<Long, Duck> repo1 = new FileRepository<>(new File("files/ducks_data.csv"), new FDTDuck());
         Repository<Long, Person> repo2 = new FileRepository<>(new File("files/person_data.csv"), new FDTPerson());
