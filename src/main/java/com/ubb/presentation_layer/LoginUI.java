@@ -11,13 +11,10 @@ public class LoginUI {
         this.adminService = adminService;
     }
 
-    private void signInMenu() {
-    }
-
     private void loginMenu() {
-        System.out.println("Enter your username:");
+        System.out.print("Enter your username: ");
         String username = sc.nextLine();
-        System.out.println("Enter your password:");
+        System.out.print("Enter your password: ");
         String password = sc.nextLine();
         try{
             LoginDTO dto = adminService.login(username,password);

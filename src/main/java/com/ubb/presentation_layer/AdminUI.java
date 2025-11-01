@@ -19,6 +19,7 @@ public class AdminUI {
     private void listAllUsers() {
         try{
             List<UserDTO> usersData = adminService.listUsers();
+            System.out.println("List of users [id/username/user type]:");
             for(UserDTO user : usersData){
                 System.out.println(user.getId() + " " + user.getUsername() + " " + user.getUserType());
             }
@@ -30,6 +31,7 @@ public class AdminUI {
     private void listAllFriends() {
         try {
             List<FriendshipDTO> friends = adminService.listFriendships();
+            System.out.println("List of friends [id user1/id user2]:");
             for(FriendshipDTO friend : friends){
                 System.out.println(friend.getUser1() + " " + friend.getUser2());
             }
@@ -40,25 +42,26 @@ public class AdminUI {
     }
 
     private void createNewDuck(){
-        System.out.println("Enter username:");
+        System.out.print("Enter username: ");
         String username = sc.nextLine();
-        System.out.println("Enter password:");
+        System.out.print("Enter password: ");
         String password = sc.nextLine();
-        System.out.println("Enter email:");
+        System.out.print("Enter email: ");
         String email = sc.nextLine();
-        System.out.println("Enter speed:");
+        System.out.print("Enter speed: ");
         String speedString = sc.nextLine();
-        System.out.println("Enter resistance:");
+        System.out.print("Enter resistance: ");
         String resistanceString = sc.nextLine();
-        System.out.println("Enter type (FLYING/SWIMMING/FLYING_AND_SWIMMING):");
+        System.out.print("Enter type (FLYING/SWIMMING/FLYING_AND_SWIMMING): ");
         String typeString = sc.nextLine();
         try{
-            Double speed = Double.parseDouble(speedString);
-            Double resistance = Double.parseDouble(resistanceString);
+            double speed = Double.parseDouble(speedString);
+            double resistance = Double.parseDouble(resistanceString);
             DuckType duckType = DuckType.valueOf(typeString);
             FullUserInfoDTO dto1 = new FullUserInfoDTO(username,email,password);
             DuckExtrasDTO dto2 = new DuckExtrasDTO(speed,resistance,duckType);
             adminService.createUserDuck(dto1,dto2);
+            ConsoleMenuPrinter.printConfirmationMessage();
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -66,24 +69,25 @@ public class AdminUI {
     }
 
     private void createNewPerson(){
-        System.out.println("Enter username:");
+        System.out.print("Enter username: ");
         String username = sc.nextLine();
-        System.out.println("Enter password:");
+        System.out.print("Enter password: ");
         String password = sc.nextLine();
-        System.out.println("Enter email:");
+        System.out.print("Enter email: ");
         String email = sc.nextLine();
-        System.out.println("Enter first name:");
+        System.out.print("Enter first name: ");
         String firstName = sc.nextLine();
-        System.out.println("Enter last name:");
+        System.out.print("Enter last name: ");
         String lastName = sc.nextLine();
-        System.out.println("Enter occupation:");
+        System.out.print("Enter occupation: ");
         String occupation = sc.nextLine();
-        System.out.println("Enter birth date (dd/mm/yyyy):");
+        System.out.print("Enter birth date (dd/mm/yyyy): ");
         String birthDate = sc.nextLine();
         try{
             FullUserInfoDTO dto1 = new FullUserInfoDTO(username,email,password);
             PersonExtrasDTO dto2 = new PersonExtrasDTO(firstName,lastName,occupation,birthDate);
             adminService.createUserPerson(dto1,dto2);
+            ConsoleMenuPrinter.printConfirmationMessage();
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -91,16 +95,17 @@ public class AdminUI {
     }
 
     private void createFriendship(){
-        System.out.println("Enter user id 1:");
+        System.out.print("Enter user id 1: ");
         String userId1 = sc.nextLine();
-        System.out.println("Enter user id 2:");
+        System.out.print("Enter user id 2: ");
         String userId2 = sc.nextLine();
-        System.out.println("Enter friend request type (WAITING/ACCEPTED/SEND/REQUESTED):");
+        System.out.print("Enter friend request type (WAITING/ACCEPTED/SEND/REQUESTED): ");
         String friendRequest = sc.nextLine();
         try{
             Long id1 =  Long.parseLong(userId1);
             Long id2 =  Long.parseLong(userId2);
             adminService.createFriendship(id1,id2,FriendRequest.valueOf(friendRequest));
+            ConsoleMenuPrinter.printConfirmationMessage();
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -108,11 +113,12 @@ public class AdminUI {
     }
 
     private void deleteUser(){
-        System.out.println("Enter user id:");
+        System.out.print("Enter user id: ");
         String id =  sc.nextLine();
         try{
             Long idNum = Long.parseLong(id);
             adminService.deleteUser(idNum);
+            ConsoleMenuPrinter.printConfirmationMessage();
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -120,14 +126,15 @@ public class AdminUI {
     }
 
     private void deleteFriendship(){
-        System.out.println("Enter user id 1:");
+        System.out.print("Enter user id 1: ");
         String userId1 = sc.nextLine();
-        System.out.println("Enter user id 2:");
+        System.out.print("Enter user id 2: ");
         String userId2 = sc.nextLine();
         try{
             Long id1 = Long.parseLong(userId1);
             Long id2 = Long.parseLong(userId2);
             adminService.deleteFriendship(id1,id2);
+            ConsoleMenuPrinter.printConfirmationMessage();
         }
         catch (Exception e){
             System.out.println(e.getMessage());

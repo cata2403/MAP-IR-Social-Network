@@ -6,7 +6,11 @@ public class ConsoleMenuPrinter {
     }
     static private void printFooter(){
         System.out.println("=======================================================");
-        System.out.println("Enter your choice -> ");
+        System.out.print("Enter your choice -> ");
+    }
+
+    static protected void printConfirmationMessage(){
+        System.out.println("Operation executed successfully");
     }
 
     static protected void printAdminMenu(){
