@@ -1,5 +1,5 @@
-import com.ubb.domain.FriendRequest;
-import com.ubb.domain.Friendship;
+import com.ubb.domain.entity_types.FriendRequest;
+import com.ubb.domain.entities.Friendship;
 import com.ubb.infrastructure.FriendshipFileSavingStrategy;
 import com.ubb.repository.FileRepository;
 import com.ubb.repository.Repository;

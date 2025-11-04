@@ -1,6 +1,6 @@
 package com.ubb.repository;
 
-import com.ubb.domain.Entity;
+import com.ubb.domain.entities.Entity;
 import com.ubb.infrastructure.DataTransferStrategy;
 
 import java.io.File;

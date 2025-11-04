@@ -1,6 +1,6 @@
 package com.ubb.repository;
 
-import com.ubb.domain.Entity;
+import com.ubb.domain.entities.Entity;
 import java.util.List;
 
 public interface Repository<ID, E extends Entity<ID>> {

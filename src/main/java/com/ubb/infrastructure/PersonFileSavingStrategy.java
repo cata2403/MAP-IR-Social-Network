@@ -1,6 +1,6 @@
 package com.ubb.infrastructure;
 
-import com.ubb.domain.Person;
+import com.ubb.domain.entities.Person;
 import com.ubb.utils.DateTimeFormats;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

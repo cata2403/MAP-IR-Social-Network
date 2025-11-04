@@ -1,6 +1,6 @@
 package com.ubb.infrastructure;
 
-import com.ubb.domain.Entity;
+import com.ubb.domain.entities.Entity;
 
 public interface DatabaseDataTransfer<ID, E extends Entity<ID>> extends DataTransferStrategy<ID, E> {
 }

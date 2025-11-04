@@ -5,6 +5,10 @@ import com.ubb.business_logic.validation.DuckValidationStrategy;
 import com.ubb.business_logic.validation.PersonValidationStrategy;
 import com.ubb.business_logic.validation.Validator;
 import com.ubb.domain.*;
+import com.ubb.domain.entities.Duck;
+import com.ubb.domain.entities.Friendship;
+import com.ubb.domain.entities.Person;
+import com.ubb.domain.entity_types.FriendRequest;
 import com.ubb.repository.RepoException;
 import com.ubb.repository.Repository;
 import com.ubb.utils.BasicAlgorithms;
@@ -22,7 +26,7 @@ public class AdminService extends SocialNetworkService{
     private final IdProvider idProvider;
 
     public AdminService(Repositories repos, IdProvider provider) {
-        super(repos.personRepository(), repos.duckRepository());
+        super(repos,  provider);
 
         personRepository = repos.personRepository();
         duckRepository = repos.duckRepository();
@@ -200,7 +204,7 @@ public class AdminService extends SocialNetworkService{
 
     public List<Long> findMostSociableFriendGroup(){
 
-        Map<Long,List<Long>> groups = makeFriendGroupsGraph();
+        Map<Long, List<Long>> groups = makeFriendGroupsGraph();
         List<Long> best_group = new ArrayList<>();
 
         long maxId = GraphAlgorithms.findBiggestNode(groups);

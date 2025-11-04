@@ -1,7 +1,7 @@
 package com.ubb.business_logic.validation;
 
-import com.ubb.domain.Entity;
-import com.ubb.domain.Person;
+import com.ubb.domain.entities.Entity;
+import com.ubb.domain.entities.Person;
 
 public class PersonValidationStrategy implements ValidationStrategy{
 

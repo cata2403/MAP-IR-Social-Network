@@ -1,7 +1,7 @@
 package com.ubb.business_logic.validation;
 
-import com.ubb.domain.Duck;
-import com.ubb.domain.Entity;
+import com.ubb.domain.entities.Duck;
+import com.ubb.domain.entities.Entity;
 
 public class DuckValidationStrategy implements  ValidationStrategy {
 

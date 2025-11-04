@@ -1,6 +1,6 @@
 package com.ubb.business_logic.validation;
 
-import com.ubb.domain.Entity;
+import com.ubb.domain.entities.Entity;
 
 public interface ValidationStrategy {
 

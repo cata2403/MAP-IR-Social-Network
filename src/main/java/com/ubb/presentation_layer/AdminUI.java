@@ -2,8 +2,8 @@ package com.ubb.presentation_layer;
 
 import com.ubb.business_logic.dtos.*;
 import com.ubb.business_logic.services.AdminService;
-import com.ubb.domain.DuckType;
-import com.ubb.domain.FriendRequest;
+import com.ubb.domain.entity_types.DuckType;
+import com.ubb.domain.entity_types.FriendRequest;
 
 import java.util.List;
 import java.util.Scanner;

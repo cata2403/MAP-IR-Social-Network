@@ -1,6 +1,6 @@
 package com.ubb.infrastructure;
-import com.ubb.domain.FriendRequest;
-import com.ubb.domain.Friendship;
+import com.ubb.domain.entity_types.FriendRequest;
+import com.ubb.domain.entities.Friendship;
 
 public class FriendshipFileSavingStrategy implements DataTransferStrategy<Long, Friendship> {
 
