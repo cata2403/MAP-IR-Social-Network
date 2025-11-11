@@ -113,7 +113,7 @@ public class ConsoleMenuPrinter {
         System.out.println("birth date: "
                             + ((Person) data.user()).
                                         getDateOfBirth().
-                                        format( DateTimeFormats.getDateFormatter()) );
+                                        format( DateTimeFormats.getDateFormatter1()) );
         System.out.println("occupation: "
                             + ((Person) data.user()).getOccupation() );
 

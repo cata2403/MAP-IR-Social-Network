@@ -31,7 +31,7 @@ public class PersonFileSavingStrategy implements DataTransferStrategy<Long, Pers
         person = person.setFirstName(personData[4]).
                         setLastName(personData[5]).
                         setOccupation(personData[6]).
-                        setDateOfBirth( LocalDate.parse(personData[7], DateTimeFormats.getDateFormatter()) );
+                        setDateOfBirth( LocalDate.parse(personData[7], DateTimeFormats.getDateFormatter1()) );
 
         return person;
     }

@@ -70,7 +70,7 @@ public class PersonService extends SocialNetworkService{
                 user.getFirstName(),
                 user.getLastName(),
                 user.getOccupation(),
-                user.getDateOfBirth().format( DateTimeFormats.getDateFormatter() )
+                user.getDateOfBirth().format( DateTimeFormats.getDateFormatter1() )
         );
         Person newUser = (Person) UserFactory.createUser( newData, dto, user.getId() );
 
@@ -85,7 +85,7 @@ public class PersonService extends SocialNetworkService{
                 .setLastName( newData.lastName() )
                 .setOccupation( newData.occupation() )
                 .setDateOfBirth(
-                        LocalDate.parse( newData.birthDate(), DateTimeFormats.getDateFormatter() )
+                        LocalDate.parse( newData.birthDate(), DateTimeFormats.getDateFormatter1() )
                 );
 
         personRepository.update(user);
