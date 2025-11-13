@@ -54,7 +54,7 @@ public class DuckService extends SocialNetworkService{
 
         Duck user = duckRepository.get(myId);
 
-        if( password.equals( newData.password() ) ){
+        if( ! password.equals( user.getPassword() ) ){
             throw  new ServiceException("<<Wrong password>>");
         }
 

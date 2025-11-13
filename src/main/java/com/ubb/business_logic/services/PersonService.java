@@ -62,7 +62,7 @@ public class PersonService extends SocialNetworkService{
 
         Person user = personRepository.get(myId);
 
-        if( ! password.equals( newData.password() ) ){
+        if( ! password.equals( user.getPassword() ) ){
             throw  new ServiceException("<<Wrong password>>");
         }
 
