@@ -148,7 +148,7 @@ public class PersonService extends SocialNetworkService{
         return wantedFlock;
     }
 
-    private void assembleFlockTeam(Long flockId){
+    private SwimMasters assembleFlockTeam(Long flockId){
 
         SwimMasters flock = flockRepository.get( flockId );
         List<Duck> ducks =  duckRepository.getAll();
@@ -159,6 +159,8 @@ public class PersonService extends SocialNetworkService{
                 flock.addDuck( (SwimmingDuck)  duck );
             }
         }
+
+        return flock;
     }
 
     public void startEvent(String eventName, String flockName){
@@ -166,9 +168,9 @@ public class PersonService extends SocialNetworkService{
         Event wantedEvent = getEvent(eventName);
         SwimMasters flock = getFlock(flockName);
 
-        assembleFlockTeam( flock.getId() );
+        flock = assembleFlockTeam( flock.getId() );
 
-        if (  wantedEvent.getMinFlockSize() > flock.getMembers().size() ){
+        if ( wantedEvent.getMinFlockSize() > flock.getMembers().size() ){
             throw  new ServiceException("<<Flock too small>>");
         }
 

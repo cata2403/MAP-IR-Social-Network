@@ -105,6 +105,17 @@ public class DuckUI extends UserUI{
         }
     }
 
+    private void deleteFlock(){
+        System.out.print("Enter flock name: ");
+        String name = inputReader.nextLine();
+        try{
+            duckService.deleteFlock(name);
+        }
+        catch(Exception error){
+            System.out.println( error.getMessage() );
+        }
+    }
+
     public void accountPageMenu(){
 
         boolean loggedIn = true;
@@ -150,6 +161,10 @@ public class DuckUI extends UserUI{
 
                 case "9":
                     joinFlock();
+                    break;
+
+                case "d":
+                    deleteFlock();
                     break;
 
                 case "e":

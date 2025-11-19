@@ -5,7 +5,6 @@ import com.ubb.utils.events_strategies.SolvingStrategy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class RaceEvent extends Event {
 
@@ -22,6 +21,10 @@ public class RaceEvent extends Event {
     public void addLane(Double lane) {
         this.lanes.add(lane);
         setMinFlockSize(getMinFlockSize() + 1);
+    }
+
+    public List<Double> getLanes() {
+        return lanes;
     }
 
     public void removeAllLanes() {

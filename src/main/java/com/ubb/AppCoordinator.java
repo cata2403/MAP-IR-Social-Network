@@ -1,37 +1,43 @@
 package com.ubb;
 
 import com.ubb.business_logic.services.*;
+import com.ubb.config.Config;
 import com.ubb.domain.entities.*;
 import com.ubb.infrastructure.FlockFileSavingStrategy;
 import com.ubb.infrastructure.FriendshipFileSavingStrategy;
 import com.ubb.presentation_layer.LoginUI;
 import com.ubb.repository.*;
 import java.io.File;
+import java.util.Properties;
 
 public class AppCoordinator {
     public static void main(String[] args) {
 
+        Config.initProperties();
+        Properties prop = Config.getProperties();
+        String url =  prop.getProperty("db.url");
+        String username = prop.getProperty("db.username");
+        String password = prop.getProperty("db.password");
+
         Repository<Long, Duck> repo1 = new DuckDBRepo(
-                "jdbc:postgresql://localhost:5432/social_network",
-                "postgres",
-                "1987cAtA21Q"
+                url, username, password
         );
 
         Repository<Long, Person> repo2 = new PersonDBRepo(
-                "jdbc:postgresql://localhost:5432/social_network",
-                "postgres",
-                "1987cAtA21Q"
+                url, username, password
         );
 
-        Repository<Long, Friendship> repo3 = new FileRepository<>(
-                new File("files/friendship_data.csv"), new FriendshipFileSavingStrategy()
+        Repository<Long, Friendship> repo3 = new FriendshipDBRepo(
+                url, username, password
         );
 
-        Repository<Long, SwimMasters> repo4 = new FileRepository<>(
-                new File("files/flock_data.csv"), new FlockFileSavingStrategy()
+        Repository<Long, SwimMasters> repo4 = new FlockDBRepo(
+                url, username, password
         );
 
-        Repository<Long, Event> repo5 = new InMemoryRepository<>();
+        Repository<Long, Event> repo5 = new EventDBRepo(
+                url, username, password
+        );
 
         Repositories repos = new Repositories(repo2, repo1, repo3, repo4, repo5);
         IdProvider idProvider = new IdProvider();

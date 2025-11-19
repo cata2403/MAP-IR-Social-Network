@@ -85,6 +85,7 @@ public class ConsoleMenuPrinter {
 
         System.out.println("[8] create flock");
         System.out.println("[9] join flock");
+        System.out.println("[d] delete flock");
         System.out.println("[e] search events");
 
         printSeparator();

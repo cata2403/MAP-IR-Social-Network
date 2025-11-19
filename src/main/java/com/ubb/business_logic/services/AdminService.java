@@ -5,14 +5,13 @@ import com.ubb.business_logic.validation.DuckValidationStrategy;
 import com.ubb.business_logic.validation.PersonValidationStrategy;
 import com.ubb.business_logic.validation.Validator;
 import com.ubb.domain.*;
-import com.ubb.domain.entities.Duck;
-import com.ubb.domain.entities.Friendship;
-import com.ubb.domain.entities.Person;
+import com.ubb.domain.entities.*;
 import com.ubb.domain.entity_types.FriendRequest;
 import com.ubb.repository.RepoException;
 import com.ubb.repository.Repository;
 import com.ubb.utils.BasicAlgorithms;
 import com.ubb.utils.GraphAlgorithms;
+
 import java.util.*;
 
 public class AdminService extends SocialNetworkService{
@@ -20,6 +19,8 @@ public class AdminService extends SocialNetworkService{
     private final Repository<Long, Person> personRepository;
     private final Repository<Long, Duck> duckRepository;
     private final Repository<Long, Friendship> friendshipRepository;
+    private final Repository<Long, SwimMasters> flockRepository;
+    private final Repository<Long, Event> eventRepository;
 
     private final Validator validator = new Validator();
 
@@ -31,6 +32,9 @@ public class AdminService extends SocialNetworkService{
         personRepository = repos.personRepository();
         duckRepository = repos.duckRepository();
         friendshipRepository = repos.friendshipRepository();
+        flockRepository = repos.flockRepository();
+        eventRepository = repos.eventRepository();
+
         idProvider = provider;
 
         calibrateIdProvider();
@@ -41,10 +45,31 @@ public class AdminService extends SocialNetworkService{
         long maxId = 0;
         List<Person> persons = personRepository.getAll();
         List<Duck> ducks = duckRepository.getAll();
+        List<Friendship> friendships = friendshipRepository.getAll();
+        List<Event> events = eventRepository.getAll();
+        List<SwimMasters> flocks = flockRepository.getAll();
 
         for(Person person : persons){
             if( person.getId() > maxId ){
                 maxId = person.getId();
+            }
+        }
+
+        for(Friendship friendship : friendships){
+            if( friendship.getId() > maxId ){
+                maxId = friendship.getId();
+            }
+        }
+
+        for(Event event : events){
+            if( event.getId() > maxId ){
+                maxId = event.getId();
+            }
+        }
+
+        for(SwimMasters flock : flocks){
+            if( flock.getId() > maxId ){
+                maxId = flock.getId();
             }
         }
 
@@ -75,18 +100,6 @@ public class AdminService extends SocialNetworkService{
         validator.validate(person);
 
         personRepository.add(person);
-    }
-
-    public void deleteFriendsOfUser(Long id){
-        List<Friendship>  friendships = friendshipRepository.getAll();
-
-        for(Friendship friendship : friendships){
-
-            if(id.equals( friendship.getIdUser1() ) ||
-               id.equals( friendship.getIdUser2() )){
-                friendshipRepository.delete(friendship.getId());
-            }
-        }
     }
 
     public void deleteUser(Long id){

@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.Types.NULL;
+
 public class DuckDBRepo implements Repository<Long, Duck>{
 
     private final String url;
@@ -26,24 +28,40 @@ public class DuckDBRepo implements Repository<Long, Duck>{
     @Override
     public void add(Duck entity) throws RepoException {
 
-        String sqlInsert = "INSERT INTO duck " +
-                "(did, username, pass, email, duck_type, speed, res, flockId) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlInsert1 = "INSERT INTO duck " +
+                "(did, duck_type, speed, res, flockId) " +
+                "VALUES (?, ?, ?, ?, NULL)";
+
+        String sqlInsert2 = "INSERT INTO app_user " +
+                "(uid, username, pass, email, did, pid) " +
+                "VALUES (?, ?, ?, ?, ?, NULL)";
 
         try( Connection connection = DriverManager.getConnection(url, username, password) ){
 
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
+            connection.setAutoCommit(false);
+            try( PreparedStatement statement1 = connection.prepareStatement(sqlInsert1);
+                 PreparedStatement statement2 = connection.prepareStatement(sqlInsert2); ) {
 
-            preparedStatement.setLong( 1, entity.getId() );
-            preparedStatement.setString( 2, entity.getUsername() );
-            preparedStatement.setString( 3, entity.getPassword() );
-            preparedStatement.setString( 4, entity.getEmail() );
-            preparedStatement.setString( 5, entity.getDuckType().toString() );
-            preparedStatement.setDouble( 6, entity.getSpeed() );
-            preparedStatement.setDouble( 7, entity.getResistance() );
-            preparedStatement.setLong( 8, entity.getFlockId() );
+                statement1.setLong(1, entity.getId());
+                statement1.setString(2, entity.getDuckType().toString());
+                statement1.setDouble(3, entity.getSpeed());
+                statement1.setDouble(4, entity.getResistance());
 
-            preparedStatement.executeUpdate();
+                statement2.setLong(1, entity.getId());
+                statement2.setString(2, entity.getUsername());
+                statement2.setString(3, entity.getPassword());
+                statement2.setString(4, entity.getEmail());
+                statement2.setLong(5, entity.getId());
+
+                statement1.executeUpdate();
+                statement2.executeUpdate();
+
+                connection.commit();
+            }
+            catch ( SQLException error ) {
+                connection.rollback();
+                throw error;
+            }
 
         }
         catch ( SQLException error){
@@ -59,16 +77,31 @@ public class DuckDBRepo implements Repository<Long, Duck>{
             throw new RepoException("<<id is null>>\n");
         }
 
-        String sqlDelete = "DELETE FROM duck WHERE did = ?";
+        String sqlDelete1 = "DELETE FROM app_user WHERE uid = ?";
+        String sqlDelete2 = "DELETE FROM duck WHERE did = ?";
+
         try( Connection connect = DriverManager.getConnection(url, username, password) ){
 
-            PreparedStatement preparedStatement = connect.prepareStatement(sqlDelete);
-            preparedStatement.setLong(1, id);
+            connect.setAutoCommit(false);
+            try( PreparedStatement statement1 = connect.prepareStatement(sqlDelete1);
+                 PreparedStatement statement2 = connect.prepareStatement(sqlDelete2); ) {
 
-            Duck duck = get(id);
-            preparedStatement.executeUpdate();
+                statement1.setLong(1, id);
+                statement2.setLong(1, id);
 
-            return duck;
+                Duck duck = get(id);
+                statement1.executeUpdate();
+                statement2.executeUpdate();
+
+                connect.commit();
+
+                return duck;
+            }
+            catch ( SQLException error ) {
+                connect.rollback();
+                throw error;
+            }
+
         }
         catch ( SQLException error){
             throw new RepoException(error.getMessage());
@@ -81,26 +114,43 @@ public class DuckDBRepo implements Repository<Long, Duck>{
             throw new RepoException("<<entity is null>>\n");
         }
 
-        String sqlUpdate = "UPDATE duck SET " +
-                "did = ?, username = ?, pass = ?, email = ?, " +
+        String sqlUpdate1 = "UPDATE duck SET " +
                 "duck_type = ?, speed = ?, res = ?, flockId = ? " +
                 "WHERE did = ?";
 
+        String sqlUpdate2 = "UPDATE app_user SET " +
+                "username = ?, pass = ?, email = ? " +
+                "WHERE uid = ?";
+
         try( Connection connection = DriverManager.getConnection( url, username, password )){
 
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdate);
+            connection.setAutoCommit(false);
+            try ( PreparedStatement statement1 = connection.prepareStatement(sqlUpdate1);
+                  PreparedStatement statement2 = connection.prepareStatement(sqlUpdate2); ) {
 
-            preparedStatement.setLong(1, entity.getId());
-            preparedStatement.setString(2, entity.getUsername());
-            preparedStatement.setString(3, entity.getPassword());
-            preparedStatement.setString(4, entity.getEmail());
-            preparedStatement.setString(5, entity.getDuckType().toString() );
-            preparedStatement.setDouble(6, entity.getSpeed());
-            preparedStatement.setDouble(7, entity.getResistance());
-            preparedStatement.setLong(8, entity.getFlockId());
+                statement1.setString(1, entity.getDuckType().toString());
+                statement1.setDouble(2, entity.getSpeed());
+                statement1.setDouble(3, entity.getResistance());
 
-            preparedStatement.setLong( 9, entity.getId() );
-            preparedStatement.executeUpdate();
+                if(entity.getFlockId() == -1)
+                    statement1.setNull(4, NULL);
+                else statement1.setLong(4, entity.getFlockId());
+                statement1.setLong(5, entity.getId());
+
+                statement2.setString(1, entity.getUsername());
+                statement2.setString(2, entity.getPassword());
+                statement2.setString(3, entity.getEmail());
+                statement2.setLong(4, entity.getId());
+
+                statement1.executeUpdate();
+                statement2.executeUpdate();
+
+                connection.commit();
+            }
+            catch ( SQLException error ) {
+                connection.rollback();
+                throw error;
+            }
 
         }
         catch ( SQLException error){
@@ -115,7 +165,7 @@ public class DuckDBRepo implements Repository<Long, Duck>{
             throw new RepoException("<<id is null>>\n");
         }
 
-        String sqlGet = "SELECT * FROM duck WHERE did = ?";
+        String sqlGet = "SELECT * FROM app_user AS au JOIN duck AS d ON au.did = d.did WHERE au.uid = ?";
 
         try( Connection connection = DriverManager.getConnection(url, username, password) ){
 
@@ -138,7 +188,7 @@ public class DuckDBRepo implements Repository<Long, Duck>{
                     DuckType.valueOf(resultSet.getString("duck_type"))
             );
 
-            Duck duck = (Duck) UserFactory.createUser( dto1, dto2, resultSet.getLong("did") );
+            Duck duck = (Duck) UserFactory.createUser( dto1, dto2, resultSet.getLong("uid") );
             duck.setFlockId( resultSet.getLong("flockId") );
 
             return duck;
@@ -151,7 +201,7 @@ public class DuckDBRepo implements Repository<Long, Duck>{
     @Override
     public List<Duck> getAll() {
 
-        String sqlGet = "SELECT * FROM duck";
+        String sqlGet = "SELECT * FROM app_user AS au JOIN duck AS d ON au.did = d.did";
         try( Connection connection = DriverManager.getConnection(url, username, password) ){
 
             PreparedStatement preparedStatement = connection.prepareStatement(sqlGet);
@@ -171,7 +221,7 @@ public class DuckDBRepo implements Repository<Long, Duck>{
                         DuckType.valueOf(resultSet.getString("duck_type"))
                 );
 
-                Duck duck = (Duck) UserFactory.createUser( dto1, dto2, resultSet.getLong("did") );
+                Duck duck = (Duck) UserFactory.createUser( dto1, dto2, resultSet.getLong("uid") );
                 duck.setFlockId( resultSet.getLong("flockId") );
 
                 ducks.add(duck);

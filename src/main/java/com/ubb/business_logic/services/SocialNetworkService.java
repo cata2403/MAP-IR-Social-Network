@@ -166,8 +166,11 @@ public abstract class SocialNetworkService {
             throw new ServiceException("<<Wrong password>>");
         }
 
+        deleteFriendsOfUser( user.getId() );
+
         if( user instanceof Person )
             personRepository.delete( user.getId() );
+
         else duckRepository.delete( user.getId() );
     }
 
@@ -193,6 +196,19 @@ public abstract class SocialNetworkService {
         }
 
         return eventNames;
+    }
+
+
+    public void deleteFriendsOfUser(Long id){
+        List<Friendship>  friendships = friendshipRepository.getAll();
+
+        for(Friendship friendship : friendships){
+
+            if(id.equals( friendship.getIdUser1() ) ||
+                    id.equals( friendship.getIdUser2() )){
+                friendshipRepository.delete(friendship.getId());
+            }
+        }
     }
 
     public void subscribeToEvent(String eventName, Long userId){

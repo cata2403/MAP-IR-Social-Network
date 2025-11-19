@@ -79,6 +79,31 @@ public class DuckService extends SocialNetworkService{
         duckRepository.update(user);
     }
 
+    public void deleteFlock(String name){
+        List<SwimMasters> flocks = flockRepository.getAll();
+
+        SwimMasters swimMasters = null;
+        for(SwimMasters flock : flocks) {
+            if (name.equals(flock.getFlockName())) {
+                swimMasters = flock;
+                break;
+            }
+        }
+
+        if (swimMasters == null)
+            throw new ServiceException("<<Flock not found>>");
+
+        List<Duck>  ducks = duckRepository.getAll();
+        for( Duck duck : ducks ) {
+            if(swimMasters.getId().equals( duck.getFlockId() )) {
+                duck.setFlockId(-1L);
+                duckRepository.update(duck);
+            }
+        }
+
+        flockRepository.delete(swimMasters.getId());
+    }
+
     public void createNewFlock(String name){
 
         List<SwimMasters> flocks = flockRepository.getAll();

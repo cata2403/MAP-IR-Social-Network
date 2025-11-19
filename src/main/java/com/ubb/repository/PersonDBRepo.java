@@ -23,25 +23,47 @@ public class PersonDBRepo implements Repository<Long, Person>{
     @Override
     public void add(Person entity) throws RepoException {
 
-        String sqlInsert = "INSERT INTO person " +
-                           "(pid, username, pass, email, first_name, last_name, occupation, birth_date) " +
-                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        if ( entity == null ) {
+            throw new RepoException("<<Person entity is null>>");
+        }
+
+        String sqlInsert1 = "INSERT INTO person " +
+                           "(pid, first_name, last_name, occupation, birth_date) " +
+                           "VALUES (?, ?, ?, ?, ?)";
+
+        String sqlInsert2 = "INSERT INTO app_user " +
+                            "(uid, username, pass, email, did, pid) " +
+                            "VALUES (?, ?, ?, ?, NULL, ?)";
 
         try( Connection connection = DriverManager.getConnection(url, username, password) ){
 
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
+            connection.setAutoCommit(false);
+            try( PreparedStatement statement1 = connection.prepareStatement(sqlInsert1);
+                 PreparedStatement statement2 = connection.prepareStatement(sqlInsert2); ) {
 
-            preparedStatement.setLong(1, entity.getId());
-            preparedStatement.setString(2, entity.getUsername());
-            preparedStatement.setString(3, entity.getPassword());
-            preparedStatement.setString(4, entity.getEmail());
-            preparedStatement.setString(5, entity.getFirstName());
-            preparedStatement.setString(6, entity.getLastName());
-            preparedStatement.setString(7, entity.getOccupation());
-            preparedStatement.setDate(8, java.sql.Date.valueOf(entity.getDateOfBirth())
-            );
+                statement1.setLong(1, entity.getId());
+                statement1.setString(2, entity.getFirstName());
+                statement1.setString(3, entity.getLastName());
+                statement1.setString(4, entity.getOccupation());
+                statement1.setDate(5, java.sql.Date.valueOf(
+                        entity.getDateOfBirth())
+                );
 
-            preparedStatement.executeUpdate();
+                statement2.setLong(1, entity.getId());
+                statement2.setString(2, entity.getUsername());
+                statement2.setString(3, entity.getPassword());
+                statement2.setString(4, entity.getEmail());
+                statement2.setLong(5, entity.getId());
+
+                statement1.executeUpdate();
+                statement2.executeUpdate();
+
+                connection.commit();
+            }
+            catch ( SQLException error ) {
+                connection.rollback();
+                throw error;
+            }
 
         }
         catch ( SQLException error){
@@ -56,16 +78,29 @@ public class PersonDBRepo implements Repository<Long, Person>{
             throw new RepoException("<<id is null>>\n");
         }
 
-        String sqlDelete = "DELETE FROM person WHERE pid = ?";
+        String sqlDelete1 = "DELETE FROM app_user WHERE uid = ?";
+        String sqlDelete2 = "DELETE FROM person WHERE pid = ?";
+
         try( Connection connect = DriverManager.getConnection(url, username, password) ){
 
-            PreparedStatement preparedStatement = connect.prepareStatement(sqlDelete);
-            preparedStatement.setLong(1, id);
+            connect.setAutoCommit(false);
+            try( PreparedStatement statement1 = connect.prepareStatement(sqlDelete1);
+                 PreparedStatement statement2 = connect.prepareStatement(sqlDelete2); ) {
 
-            Person person = get(id);
-            preparedStatement.executeUpdate();
+                statement1.setLong(1, id);
+                statement2.setLong(1, id);
 
-            return person;
+                Person person = get(id);
+                statement1.executeUpdate();
+                statement2.executeUpdate();
+
+                connect.commit();
+                return person;
+            }
+            catch ( SQLException error ) {
+                connect.rollback();
+                throw error;
+            }
         }
         catch ( SQLException error){
             throw new RepoException(error.getMessage());
@@ -79,26 +114,40 @@ public class PersonDBRepo implements Repository<Long, Person>{
             throw new RepoException("<<entity is null>>\n");
         }
 
-        String sqlUpdate = "UPDATE person SET " +
-                "pid = ?, username = ?, pass = ?, email = ?, " +
-                "first_name = ?, last_name = ?, occupation = ?, birth_date = ? " +
-                "WHERE pid = ?";
+        String sqlUpdate1 = "UPDATE person SET " +
+                "first_name = ?, last_name = ?, " +
+                "occupation = ?, birth_date = ? WHERE pid = ?";
+
+        String sqlUpdate2 = "UPDATE app_user SET " +
+                "username = ?, pass = ?, email = ? " +
+                "WHERE uid = ?";
 
         try( Connection connection = DriverManager.getConnection( url, username, password )){
 
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdate);
+            connection.setAutoCommit(false);
+            try( PreparedStatement statement1 = connection.prepareStatement(sqlUpdate1);
+                 PreparedStatement statement2 = connection.prepareStatement(sqlUpdate2); ) {
 
-            preparedStatement.setLong(1, entity.getId());
-            preparedStatement.setString(2, entity.getUsername());
-            preparedStatement.setString(3, entity.getPassword());
-            preparedStatement.setString(4, entity.getEmail());
-            preparedStatement.setString(5, entity.getFirstName());
-            preparedStatement.setString(6, entity.getLastName());
-            preparedStatement.setString(7, entity.getOccupation());
-            preparedStatement.setDate(8, java.sql.Date.valueOf(entity.getDateOfBirth()));
+                statement1.setString(1, entity.getFirstName());
+                statement1.setString(2, entity.getLastName());
+                statement1.setString(3, entity.getOccupation());
+                statement1.setDate(4, java.sql.Date.valueOf(entity.getDateOfBirth()));
+                statement1.setLong(5, entity.getId());
 
-            preparedStatement.setLong( 9, entity.getId() );
-            preparedStatement.executeUpdate();
+                statement2.setString(1, entity.getUsername());
+                statement2.setString(2, entity.getPassword());
+                statement2.setString(3, entity.getEmail());
+                statement2.setLong(4, entity.getId());
+
+                statement1.executeUpdate();
+                statement2.executeUpdate();
+
+                connection.commit();
+            }
+            catch ( SQLException error ) {
+                connection.rollback();
+                throw error;
+            }
 
         }
         catch ( SQLException error){
@@ -113,7 +162,7 @@ public class PersonDBRepo implements Repository<Long, Person>{
             throw new RepoException("<<id is null>>\n");
         }
 
-        String sqlGet = "SELECT * FROM person WHERE pid = ?";
+        String sqlGet = "SELECT * FROM app_user AS au JOIN person AS p ON au.pid = p.pid WHERE au.uid = ?;";
         try( Connection connection = DriverManager.getConnection(url, username, password) ){
 
             PreparedStatement preparedStatement = connection.prepareStatement(sqlGet);
@@ -125,7 +174,7 @@ public class PersonDBRepo implements Repository<Long, Person>{
             }
 
             Person person = new Person(
-                    resultSet.getLong("pid"),
+                    resultSet.getLong("uid"),
                     resultSet.getString("username"),
                     resultSet.getString("pass"),
                     resultSet.getString("email")
@@ -150,7 +199,7 @@ public class PersonDBRepo implements Repository<Long, Person>{
     @Override
     public List<Person> getAll() {
 
-        String sqlGet = "SELECT * FROM person";
+        String sqlGet = "SELECT * FROM app_user AS au JOIN person AS p ON au.pid = p.pid";
         try( Connection connection = DriverManager.getConnection(url, username, password) ){
 
             PreparedStatement preparedStatement = connection.prepareStatement(sqlGet);
@@ -160,7 +209,7 @@ public class PersonDBRepo implements Repository<Long, Person>{
             while( resultSet.next() ){
 
                 Person person = new Person(
-                        resultSet.getLong("pid"),
+                        resultSet.getLong("uid"),
                         resultSet.getString("username"),
                         resultSet.getString("pass"),
                         resultSet.getString("email")
