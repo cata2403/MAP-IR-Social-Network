@@ -131,7 +131,7 @@ public class EventDBRepo implements Repository<Long, Event>{
             }
 
             SolvingStrategy strategy;
-            if (rs.getString("strategy") == "dp")
+            if ("dp".equals(rs.getString("strategy")))
                 strategy = new DynaminProgrammingStrategy();
             else
                 throw new RepoException("<<Strategia din DB salvata prost>>");

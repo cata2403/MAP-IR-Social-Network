@@ -177,6 +177,7 @@ public class PersonService extends SocialNetworkService{
         List<Duck> ducks = new ArrayList<>(flock.getMembers());
 
         wantedEvent.startEvent( ducks );
+        eventRepository.delete(wantedEvent.getId());
 
     }
 

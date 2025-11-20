@@ -227,7 +227,7 @@ public abstract class SocialNetworkService {
         }
 
         wantedEvent.addObserver(
-                (Observer) obtainUserById(userId).user()
+                personRepository.get(userId)
         );
     }
 }
