@@ -1,4 +1,4 @@
-package com.ubb.presentation_layer;
+package com.ubb.presentation_layer.console_ui;
 
 import com.ubb.business_logic.dtos.*;
 import com.ubb.business_logic.services.AdminService;

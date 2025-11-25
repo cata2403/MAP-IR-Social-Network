@@ -4,6 +4,7 @@ import com.ubb.business_logic.dtos.UserDTO;
 import com.ubb.domain.entities.*;
 import com.ubb.domain.entity_types.FriendRequest;
 import com.ubb.domain.entity_types.UserType;
+import com.ubb.observer.Observable;
 import com.ubb.observer.Observer;
 import com.ubb.repository.Repository;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class SocialNetworkService {
+public abstract class SocialNetworkService implements Observable {
 
     private final Repository<Long, Person> personRepository;
     private final Repository<Long, Duck> duckRepository;
@@ -20,6 +21,24 @@ public abstract class SocialNetworkService {
     private final Repository<Long, Event>  eventRepository;
 
     IdProvider idProvider;
+
+    List<Observer> observers = new ArrayList<>();
+    @Override
+    public void addObserver(Observer o){
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o){
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers(){
+        for(Observer o : observers){
+            o.update();
+        }
+    }
 
     public SocialNetworkService( Repositories repos, IdProvider idProvider ) {
         this.personRepository = repos.personRepository();
@@ -108,6 +127,17 @@ public abstract class SocialNetworkService {
         }
 
         return usersData;
+    }
+
+    public List<Duck> listDucks(String type) {
+        List<Duck> list = duckRepository.getAll();
+        List<Duck> ducks = new ArrayList<>();
+        for(Duck duck : list){
+            if ( "ALL".equals(type) || type.equals(duck.getDuckType().toString()) )
+                ducks.add(duck);
+        }
+
+        return ducks;
     }
 
     public void sendFriendRequest(Long myId, String friendUsername){

@@ -1,6 +1,6 @@
 package com.ubb.domain.entities;
 
-public class User extends Entity<Long> {
+public abstract class User extends Entity<Long> {
 
     private String username;
     private String password;
