@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="241.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ubb.presentation_layer.controllers.user_gui.DuckController">
+    <children>
+        <ToolBar layoutX="45.0" layoutY="191.0" prefHeight="36.0" prefWidth="510.0">
+            <items>
+                <Button mnemonicParsing="false" onAction="#handleBrowseButton" prefHeight="26.0" prefWidth="114.0" text="Browse users" />
+                <Button mnemonicParsing="false" onAction="#handleFriendRequestsButton" prefHeight="26.0" prefWidth="124.0" text="Friend Requests" />
+                <Button mnemonicParsing="false" onAction="#handleMessageButton" prefHeight="26.0" prefWidth="118.0" text="Send Message" />
+                <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Events" textAlignment="CENTER" onAction="#openEventsWindowButton"/>
+            </items>
+        </ToolBar>
+        <Label fx:id="labelUsername" layoutX="41.0" layoutY="22.0" prefHeight="43.0" prefWidth="538.0" text="Aici vine usernameul">
+            <font>
+                <Font name="System Bold" size="23.0" />
+            </font>
+        </Label>
+        <Label fx:id="labelEmail" layoutX="91.0" layoutY="91.0" prefHeight="26.0" prefWidth="290.0" text="aici vine email-ul" />
+        <Label fx:id="labelSpeed" layoutX="91.0" layoutY="124.0" prefHeight="18.0" prefWidth="290.0" text="aici vine nume viteza" />
+        <Label layoutX="52.0" layoutY="96.0" text="Email:" />
+        <Label layoutX="50.0" layoutY="124.0" text="Speed:" />
+        <Label layoutX="39.0" layoutY="141.0" text="Resistance:" />
+        <Label fx:id="labelResistance" layoutX="105.0" layoutY="140.0" prefHeight="18.0" prefWidth="216.0" text="aici vine rezistenta" />
+        <Label layoutX="40.0" layoutY="159.0" text="Duck Type:" />
+        <Label fx:id="labelType" layoutX="105.0" layoutY="159.0" prefHeight="18.0" prefWidth="321.0" text="aici vine tipul" />
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="410.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../images/Mallard-drake-chicago-march-2024.jpg" />
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>

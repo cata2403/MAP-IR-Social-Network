@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="348.0" prefWidth="282.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ubb.presentation_layer.controllers.admin_gui.AddDuckController">
+    <children>
+        <TextField fx:id="usernameField" layoutX="107.0" layoutY="31.0" />
+        <TextField fx:id="emailField" layoutX="108.0" layoutY="71.0" />
+        <PasswordField fx:id="passField" layoutX="109.0" layoutY="115.0" />
+        <ComboBox fx:id="dtypeCB" layoutX="109.0" layoutY="175.0" prefWidth="150.0">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="FLYING" />
+                    <String fx:value="SWIMMING" />
+                    <String fx:value="FLYING_AND_SWIMMING" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <Spinner fx:id="speedSpinner" layoutX="108.0" layoutY="213.0" />
+        <Spinner fx:id="resSpinner" layoutX="110.0" layoutY="252.0" />
+        <Label layoutX="41.0" layoutY="35.0" text="Username" />
+        <Label layoutX="54.0" layoutY="75.0" text="Email" />
+        <Label layoutX="43.0" layoutY="119.0" text="Password" />
+        <Label layoutX="41.0" layoutY="179.0" text="Duck type" />
+        <Label layoutX="51.0" layoutY="217.0" text="Speed" />
+        <Label layoutX="40.0" layoutY="256.0" text="Resistance" />
+        <Button layoutX="69.0" layoutY="307.0" mnemonicParsing="false" onAction="#handleAddButton" prefHeight="26.0" prefWidth="142.0" text="ADD" />
+    </children>
+</AnchorPane>

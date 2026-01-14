@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane prefHeight="191.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ubb.presentation_layer.controllers.admin_gui.AddFriendshipController">
+    <children>
+        <TextField  fx:id="u1Field" layoutX="141.0" layoutY="22.0" />
+        <TextField fx:id="u2Field" layoutX="141.0" layoutY="61.0" />
+        <ComboBox fx:id="cbRtype" layoutX="140.0" layoutY="99.0" prefWidth="150.0">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="WAITING" />
+                    <String fx:value="ACCEPTED" />
+                    <String fx:value="SEND" />
+                    <String fx:value="REQUESTED" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <Button layoutX="85.0" layoutY="143.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="150.0" text="ADD" onAction="#handlerAddButton"/>
+        <Label layoutX="57.0" layoutY="26.0" text="Username1" />
+        <Label layoutX="57.0" layoutY="65.0" text="Username2" />
+        <Label layoutX="52.0" layoutY="103.0" text="Request type" />
+    </children>
+</AnchorPane>

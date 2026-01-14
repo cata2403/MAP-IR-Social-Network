@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="331.0" prefWidth="464.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ubb.presentation_layer.controllers.user_gui.EventController">
+    <children>
+        <ListView fx:id="eventList" layoutX="25.0" layoutY="35.0" prefHeight="200.0" prefWidth="198.0" />
+        <Label layoutX="25.0" layoutY="14.0" text="Events" />
+        <Button layoutX="25.0" layoutY="249.0" mnemonicParsing="false" onAction="#participateButton" prefHeight="26.0" prefWidth="198.0" text="Participate" />
+        <Button layoutX="25.0" layoutY="284.0" mnemonicParsing="false" onAction="#startEventButton" prefHeight="26.0" prefWidth="198.0" text="Start" />
+        <TextField fx:id="eventName" layoutX="315.0" layoutY="35.0" prefHeight="26.0" prefWidth="134.0" />
+        <TextField fx:id="lanes" layoutX="315.0" layoutY="73.0" prefHeight="26.0" prefWidth="134.0" />
+        <Label layoutX="248.0" layoutY="40.0" text="Event name" />
+        <Label layoutX="265.0" layoutY="78.0" text="Lanes" />
+        <Button layoutX="340.0" layoutY="109.0" mnemonicParsing="false" onAction="#createEventButton" text="Create Event" />
+    </children>
+</AnchorPane>
