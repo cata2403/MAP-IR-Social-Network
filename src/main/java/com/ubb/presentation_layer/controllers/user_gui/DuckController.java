@@ -56,7 +56,7 @@ public class DuckController implements Observer {
 
     public void handleFriendRequestsButton(){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/user_fxmls/friend_requests_page.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/user_fxmls/friend_request_page.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             FriendRequestsController controller = fxmlLoader.getController();
             controller.setService(service.getGeneralService(), info);
