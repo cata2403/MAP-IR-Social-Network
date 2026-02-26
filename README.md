@@ -48,5 +48,3 @@ The project was built using **Clean Coding** and **Domain-Driven Design (DDD)** 
 ## Project Goal
 This project was developed as part of the **Advanced Programming Methods** course to deepen the understanding of software architecture and object-oriented design.
 
----
-⭐ *Developed at Babeș-Bolyai University, Cluj-Napoca.*
