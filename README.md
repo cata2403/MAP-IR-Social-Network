@@ -1,4 +1,4 @@
-# QuackNet - Social Networking for Ducks & Humans
+# Social Network for Ducks & Humans
 
 A desktop social networking application developed as an academic project at Babeș-Bolyai University. The project emphasizes the application of software engineering principles, design patterns, and scalable architectures.
 
