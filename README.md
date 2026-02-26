@@ -41,7 +41,6 @@ Proiectul a fost construit folosind principii de **Clean Coding** și **Domain-D
 * **UI Framework:** JavaFX
 * **Build Tool:** Gradle
 * **Database:** PostgreSQL
-* 
 
 ## 🎓 Scopul Proiectului
 Acest proiect a fost realizat în cadrul cursului de **Metode Avansate de Programare** pentru a aprofunda conceptele de arhitectură software și design orientat pe obiecte.
