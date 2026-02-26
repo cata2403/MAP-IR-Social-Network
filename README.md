@@ -1,46 +1,52 @@
-# Social Networking for Ducks & Humans
+# QuackNet - Social Networking for Ducks & Humans
 
-O aplicație desktop de socializare, dezvoltată ca proiect academic în cadrul Universității Babeș-Bolyai. Proiectul pune accent pe aplicarea principiilor de software engineering, design patterns și arhitecturi scalabile.
-
----
-
-## Caracteristici Principale
-
-### Pentru Utilizatori (Rațe & Oameni):
-* **Sistem de Autentificare:** Login securizat cu parole criptate.
-* **Gestiunea Prieteniilor:** Trimite, acceptă sau refuză cereri de prietenie.
-* **Comunicare Real-time:** Mesagerie privată între prieteni.
-* **Notificări:** Sistem de alerte pentru activități și cereri de prietenie primite.
-* **Evenimente:** Descoperă și participă la evenimente.
-
-### Pentru Administratori:
-* **Control Total:** Gestiunea completă a bazei de date de utilizatori.
-* **Vizualizare Avansată:** Tabele cu filtrare și paginare pentru datele despre useri.
-* **Audit:** Monitorizarea activității pe platformă.
+A desktop social networking application developed as an academic project at Babeș-Bolyai University. The project emphasizes the application of software engineering principles, design patterns, and scalable architectures.
 
 ---
 
-## Arhitectură și Design Patterns
+## Key Features
 
-Proiectul a fost construit folosind principii de **Clean Coding** și **Domain-Driven Design (DDD)**, fiind structurat pe straturi (**Layered Architecture**):
-1.  **UI Layer:** JavaFX (Interfață grafică).
-2.  **Service/Business Layer:** Logica aplicației.
-3.  **Repository Layer:** Persistența datelor folosind PostgreSQL.
-4.  **Domain Layer:** Modelele de date.
+### For Users (Ducks & Humans):
+* **Authentication System:** Secure login with encrypted passwords.
+* **Friendship Management:** Send, accept, or decline friend requests.
+* **Real-time Communication:** Private messaging system between friends.
+* **Notifications:** Alert system for activities and incoming friend requests.
+* **Events:** Discover and participate in events.
 
-### Design Patterns Implementate:
-* **Observer Pattern:** Utilizat pentru actualizarea automată a ferestrelor (UI) la modificarea datelor.
-* **Factory Pattern:** Folosit pentru crearea consistentă a entităților complexe.
-* **Strategy Pattern:** Folosit pentru diverse clase utilitare si strategi de validare a entitatilor
+### For Administrators:
+* **Full Control:** Complete management of the user database.
+* **Advanced Data Visualization:** Tables with filtering and pagination for user data.
+* **Audit:** Monitoring of platform activity.
 
 ---
 
-## Stack Tehnologic
+## Architecture and Design Patterns
 
-* **Limbaj:** Java
+The project was built using **Clean Coding** and **Domain-Driven Design (DDD)** principles, structured into a **Layered Architecture**:
+1. **UI Layer:** JavaFX (Graphical Interface).
+2. **Service/Business Layer:** Core application logic.
+3. **Repository Layer:** Data persistence using PostgreSQL.
+4. **Domain Layer:** Data models and entities.
+
+### Implemented Design Patterns:
+* **Observer Pattern:** Used for automatic UI synchronization when data is modified.
+* **Factory Pattern:** Used for consistent instantiation of complex entities.
+* **Strategy Pattern:** Used for various utility classes and entity validation strategies.
+
+---
+
+## Tech Stack
+
+* **Language:** Java
 * **UI Framework:** JavaFX
 * **Build Tool:** Gradle
 * **Database:** PostgreSQL
+* **IDE:** IntelliJ IDEA
 
-## 🎓 Scopul Proiectului
-Acest proiect a fost realizat în cadrul cursului de **Metode Avansate de Programare** pentru a aprofunda conceptele de arhitectură software și design orientat pe obiecte.
+---
+
+## Project Goal
+This project was developed as part of the **Advanced Programming Methods** course to deepen the understanding of software architecture and object-oriented design.
+
+---
+⭐ *Developed at Babeș-Bolyai University, Cluj-Napoca.*
