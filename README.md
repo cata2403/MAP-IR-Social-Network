@@ -1,6 +1,6 @@
 # Social Networking for Ducks & Humans
 
-O aplicație desktop de socializare, dezvoltată ca proiect academic în cadrul Universității Babeș-Bolyai. Proiectul pune accent pe aplicarea riguroasă a principiilor de software engineering, design patterns și arhitecturi scalabile.
+O aplicație desktop de socializare, dezvoltată ca proiect academic în cadrul Universității Babeș-Bolyai. Proiectul pune accent pe aplicarea principiilor de software engineering, design patterns și arhitecturi scalabile.
 
 ---
 
