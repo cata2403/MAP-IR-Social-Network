@@ -31,7 +31,7 @@ Proiectul a fost construit folosind principii de **Clean Coding** și **Domain-D
 ### Design Patterns Implementate:
 * **Observer Pattern:** Utilizat pentru actualizarea automată a ferestrelor (UI) la modificarea datelor.
 * **Factory Pattern:** Folosit pentru crearea consistentă a entităților complexe.
-* **Strategy Pattern:** Folosit pentru diverse calcule utilitare si strategi de validare a entitatilor
+* **Strategy Pattern:** Folosit pentru diverse clase utilitare si strategi de validare a entitatilor
 
 ---
 
