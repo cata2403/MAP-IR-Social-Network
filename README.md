@@ -1,6 +1,6 @@
 # Social Network for Ducks & Humans
 
-A desktop social networking application developed as an academic project at Babeș-Bolyai University. The project emphasizes the application of software engineering principles, design patterns, and scalable architectures.
+A desktop social networking application developed as part of an Advanced Programming Methods course. The project focuses on applying layered architecture and design patterns to ensure code maintainability and clear separation of concerns.
 
 ---
 
