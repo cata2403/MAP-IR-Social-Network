@@ -15,7 +15,7 @@ A desktop social networking application developed as part of the Advanced Progra
 
 ### For Administrators:
 * **Full Control:** Complete management of the user database.
-* **Advanced Data Visualization:** Tables with filtering and pagination for user data.
+* **Data Visualization:** Tables with filtering and pagination for user data.
 * **Audit:** Monitoring of platform activity.
 
 ---
