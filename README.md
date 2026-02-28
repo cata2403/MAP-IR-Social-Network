@@ -7,7 +7,7 @@ A desktop social networking application developed as part of the Advanced Progra
 ## Key Features
 
 ### For Users (Ducks & Humans):
-* **Authentication System:** Secure login with encrypted passwords.
+* **Authentication System:** Login/Signup with encrypted passwords.
 * **Friendship Management:** Send, accept, or decline friend requests.
 * **Real-time Communication:** Private messaging system between friends.
 * **Notifications:** Alert system for activities and incoming friend requests.
