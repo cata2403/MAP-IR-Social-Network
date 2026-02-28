@@ -22,7 +22,7 @@ A desktop social networking application developed as part of the Advanced Progra
 
 ## Architecture and Design Patterns
 
-The project was built using **Clean Coding** and **Domain-Driven Design (DDD)** principles, structured into a **Layered Architecture**:
+The project was built using **Clean Coding** and **SOLID** principles, structured into a **Layered Architecture**:
 1. **UI Layer:** JavaFX (Graphical Interface).
 2. **Service/Business Layer:** Core application logic.
 3. **Repository Layer:** Data persistence using PostgreSQL.
